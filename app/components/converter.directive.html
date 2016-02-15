@@ -1,0 +1,56 @@
+<form name='ccyConverter' class="form form-horizontal" novalidate
+      ng-submit="calculate()">
+    <fieldset>
+
+        <legend>Converter</legend>
+
+        <div class="form__have form-group">
+            <label class="col-md-4 control-label" for="have">Currency I have:</label>
+            <div class="col-md-4">
+                <select id="have" name="have" class="form-control" required
+                        ng-model="currencies.have"
+                        ng-options="name for name in currencies.names">
+                        <option value=""
+                        ng-bind="defaultText"
+                        ng-if="currencies.have === defaultText"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form__want form-group"}>
+            <label class="col-md-4 control-label" for="want">Currency I want:</label>
+            <div class="col-md-4">
+                <select id="want" name="want" class="form-control" required
+                    ng-model="currencies.want"
+                    ng-options="name as name for name in currencies.names | filter: isUnique"
+                    ng-change='wantHandler()'>
+                    <option value=""
+                    ng-bind="defaultText"
+                    ng-if="currencies.want === defaultText"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form__amount form-group" ng-class="{'has-error text-danger': ccyConverter.amount.$invalid}">
+            <label class="col-md-4 control-label" for="amount">Amount</label>
+            <div class="col-md-4">
+                <input ng-model="currencies.amount" amount id="amount" name="amount" type="number" min="0" placeholder="Enter amount" class="form-control input-md" required>
+                <span ng-show="ccyConverter.amount.$invalid">Please, enter valid amount</span>
+            </div>
+        </div>
+
+        <div class="form__result form-group">
+            <label class="col-md-4 control-label" for="result">Result</label>
+            <div class="col-md-4">
+                <input ng-model="result" id="result" name="result" type="text" class="form-control input-md" readonly>
+            </div>
+        </div>
+
+        <div class="form__exchange form-group">
+            <label class="col-md-4 control-label" for="exchange"></label>
+            <div class="col-md-8">
+                <button ng-disabled="isValid()" id="exchange" type="submit" name="exchange" class="btn btn-primary">Exchange</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
